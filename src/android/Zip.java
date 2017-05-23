@@ -23,6 +23,8 @@ import android.util.Log;
 public class Zip extends CordovaPlugin {
 
     private static final String LOG_TAG = "Zip";
+    private static final char UNIX_SEPARATOR = '/';
+    private static final char WINDOWS_SEPARATOR = '\\';
 
     @Override
     public boolean execute(String action, CordovaArgs args, final CallbackContext callbackContext) throws JSONException {
@@ -119,7 +121,7 @@ public class Zip extends CordovaPlugin {
             while ((ze = zis.getNextEntry()) != null)
             {
                 anyEntries = true;
-                String compressedName = ze.getName();
+                String compressedName = ze.getName().indexOf(WINDOWS_SEPARATOR) == -1 ? ze.getName() : ze.getName().replace(WINDOWS_SEPARATOR, UNIX_SEPARATOR);
 
                 if (ze.isDirectory()) {
                    File dir = new File(outputDirectory + compressedName);
