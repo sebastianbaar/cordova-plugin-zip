@@ -122,7 +122,7 @@ public class Zip extends CordovaPlugin {
                 anyEntries = true;
                 String compressedName = ze.getName().indexOf(WINDOWS_SEPARATOR) == -1 ? ze.getName() : ze.getName().replace(WINDOWS_SEPARATOR, UNIX_SEPARATOR);
 
-                if (ze.isDirectory()) {
+                if (ze.isDirectory() || ze.getName().endsWith(String.valueOf(WINDOWS_SEPARATOR))) {
                    File dir = new File(outputDirectory + compressedName);
                    dir.mkdirs();
                 } else {
