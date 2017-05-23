@@ -15,10 +15,9 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaResourceApi.OpenForReadResult;
 import org.apache.cordova.PluginResult;
+import org.apache.cordova.LOG;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.util.Log;
 
 public class Zip extends CordovaPlugin {
 
@@ -69,7 +68,7 @@ public class Zip extends CordovaPlugin {
             if (tempFile == null || !tempFile.exists()) {
                 String errorMessage = "Zip file does not exist";
                 callbackContext.error(errorMessage);
-                Log.e(LOG_TAG, errorMessage);
+                LOG.e(LOG_TAG, errorMessage);
                 return;
             }
 
@@ -79,7 +78,7 @@ public class Zip extends CordovaPlugin {
             if (outputDir == null || (!outputDir.exists() && !outputDir.mkdirs())){
                 String errorMessage = "Could not create output directory";
                 callbackContext.error(errorMessage);
-                Log.e(LOG_TAG, errorMessage);
+                LOG.e(LOG_TAG, errorMessage);
                 return;
             }
 
@@ -130,7 +129,7 @@ public class Zip extends CordovaPlugin {
                     File file = new File(outputDirectory + compressedName);
                     file.getParentFile().mkdirs();
                     if(file.exists() || file.createNewFile()){
-                        Log.w("Zip", "extracting: " + file.getPath());
+                        LOG.w(LOG_TAG, "extracting: " + file.getPath());
                         FileOutputStream fout = new FileOutputStream(file);
                         int count;
                         while ((count = zis.read(buffer)) != -1)
@@ -157,7 +156,7 @@ public class Zip extends CordovaPlugin {
         } catch (Exception e) {
             String errorMessage = "An error occurred while unzipping.";
             callbackContext.error(errorMessage);
-            Log.e(LOG_TAG, errorMessage, e);
+            LOG.e(LOG_TAG, errorMessage, e);
         } finally {
             if (inputStream != null) {
                 try {
